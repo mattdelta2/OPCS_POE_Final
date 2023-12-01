@@ -1,18 +1,22 @@
 package com.example.myapplication
 
-import android.content.Context
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.util.Log
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class AllWork : AppCompatActivity() {
 
 
     private lateinit var backButton: ImageButton
+    private lateinit var adapter: TimesheetEntryAdapter
 
 
 
@@ -28,8 +32,7 @@ class AllWork : AppCompatActivity() {
         val timesheetEntries = getSavedTimesheetEntries()
 
         // Initialize and set the adapter for the RecyclerView
-        val adapter = TimesheetEntryAdapter(timesheetEntries)
-        entriesRecyclerView.adapter = adapter
+        adapter = TimesheetEntryAdapter(timesheetEntries)
 
         backButton = findViewById(R.id.backBTN)
         backButton.setOnClickListener{(back())}
@@ -39,7 +42,7 @@ class AllWork : AppCompatActivity() {
 
 
     }
-
+/*
     private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
         val sharedPreferences = getSharedPreferences("TimesheetEntries", Context.MODE_PRIVATE)
         val gson = Gson()
@@ -54,7 +57,36 @@ class AllWork : AppCompatActivity() {
             }
         }
         return timesheetEntries
+    }*/
+
+    private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
+        val timesheetEntries = mutableListOf<TimesheetEntry>()
+
+        val databaseReference = FirebaseDatabase.getInstance().reference.child("timesheet_entries")
+
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (entrySnapshot in snapshot.children) {
+                    val entry = entrySnapshot.getValue(TimesheetEntry::class.java)
+                    entry?.let {
+                        timesheetEntries.add(it)
+                        Log.d(TAG, "Fetched entry: $it")
+                    }
+                }
+
+                // Notify the adapter that the data has changed
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error, if needed
+                Log.e(TAG, "Failed to read value.", error.toException())
+            }
+        })
+
+        return timesheetEntries
     }
+
     private fun back()
     {
         val intent = Intent(this, MainMenu::class.java)

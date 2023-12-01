@@ -9,9 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 class TimesheetEntryAdapter(private val entries: List<TimesheetEntry>) :
     RecyclerView.Adapter<TimesheetEntryAdapter.EntryViewHolder>() {
 
-
-
-    class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // Define your views inside the ViewHolder if needed
+        val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
+        val startTimeTextView: TextView = itemView.findViewById(R.id.startTimeTextView)
+        val endTimeTextView: TextView = itemView.findViewById(R.id.endTimeTextView)
+        val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
+        val categoryTextView: TextView = itemView.findViewById(R.id.categoryTextView)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_all_work, parent, false)
@@ -21,23 +26,15 @@ class TimesheetEntryAdapter(private val entries: List<TimesheetEntry>) :
     override fun onBindViewHolder(holder: EntryViewHolder, position: Int) {
         val entry = entries[position]
 
-
-        val dateTextView = holder.itemView.findViewById<TextView>(R.id.dateTextView)
-        val startTimeTextView = holder.itemView.findViewById<TextView>(R.id.startTimeTextView)
-        val endTimeTextView = holder.itemView.findViewById<TextView>(R.id.endTimeTextView)
-        val descriptionTextView = holder.itemView.findViewById<TextView>(R.id.descriptionTextView)
-        val categoryTextView = holder.itemView.findViewById<TextView>(R.id.categoryTextView)
-
-      //  dateTextView.text = "Date: ${entry.date}"
-       // startTimeTextView.text = "Start Time: ${entry.startTime}"
-     //   endTimeTextView.text = "End Time: ${entry.endTime}"
-       // descriptionTextView.text = "Description: ${entry.description}"
-
-
-
-
+        // Bind the data to the views inside the item's layout
+        holder.categoryTextView.text = "Category: ${entry.categoryName}"
+        holder.dateTextView.text = "Date: ${entry.date}"
+        holder.startTimeTextView.text = "Start Time: ${entry.startTime}"
+        holder.endTimeTextView.text = "End Time: ${entry.endTime}"
+        holder.descriptionTextView.text = "Description: ${entry.description}"
     }
 
     override fun getItemCount() = entries.size
 }
+
 

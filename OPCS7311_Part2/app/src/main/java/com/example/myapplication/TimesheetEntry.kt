@@ -1,7 +1,7 @@
 package com.example.myapplication
 
 data class TimesheetEntry(
-    val category: String? = null,
+    val categoryName: String? = null,
     val date: String? = null,
     val startTime: String? = null,
     val endTime: String? = null,
