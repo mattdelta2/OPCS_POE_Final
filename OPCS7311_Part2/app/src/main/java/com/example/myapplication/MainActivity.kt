@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         //inititlise the database
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child("opcs-poe-final")
+        databaseReference = FirebaseDatabase.getInstance().reference.child("timesheet_entries")
 
 
 
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity() {
                     prefs.edit().putBoolean(FIRST_LAUNCH, false).apply()
                 }*/
 
-        addCategoryButton.setOnClickListener {
+ /*       addCategoryButton.setOnClickListener {
             val date = entryDateEditText.text.toString()
             val startTime = startTimeEditText.text.toString()
             val endTime = endTimeEditText.text.toString()
@@ -126,6 +126,27 @@ class MainActivity : AppCompatActivity() {
                 endTimeEditText.text.clear()
                 descriptionEditText.text.clear()
 
+
+            }
+        }*/
+
+        addCategoryButton.setOnClickListener {
+            val date = entryDateEditText.text.toString()
+            val startTime = startTimeEditText.text.toString()
+            val endTime = endTimeEditText.text.toString()
+            val description = descriptionEditText.text.toString()
+
+            if (date.isNotEmpty() && startTime.isNotEmpty() && endTime.isNotEmpty() && description.isNotEmpty()) {
+                val timesheetEntry = TimesheetEntry(date, startTime, endTime, description, imageUrl = null)
+
+                // Call a function to save the timesheet entry to Firebase
+                saveTimesheetEntryToFirebase(timesheetEntry)
+
+                // Clear the input fields or perform any other desired actions
+                entryDateEditText.text.clear()
+                startTimeEditText.text.clear()
+                endTimeEditText.text.clear()
+                descriptionEditText.text.clear()
 
             }
         }

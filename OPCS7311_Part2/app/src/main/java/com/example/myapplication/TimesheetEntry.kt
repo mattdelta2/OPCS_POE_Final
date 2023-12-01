@@ -1,5 +1,12 @@
 package com.example.myapplication
 
-class TimesheetEntry(date: String, startTime: String, endTime: String, description: String, imageUrl: Nothing?) {
-
+data class TimesheetEntry(
+    val date: String? = null,
+    val startTime: String? = null,
+    val endTime: String? = null,
+    val description: String? = null,
+    val imageUrl: String? = null
+) {
+    // Add a default, no-argument constructor
+    constructor() : this("", "", "", "", "")
 }
