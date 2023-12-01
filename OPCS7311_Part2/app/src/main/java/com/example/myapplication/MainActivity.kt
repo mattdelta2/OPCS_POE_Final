@@ -14,6 +14,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 
 class CategoryName(val id: Int, val name: String)
 
@@ -36,9 +39,16 @@ class MainActivity : AppCompatActivity() {
     private val PREFS_NAME = "MyPrefsFile"
     private val FIRST_LAUNCH = "first_launch"
 
+    //declare database
+    private lateinit var databaseReference: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //inititlise the database
+
+        databaseReference = FirebaseDatabase.getInstance().reference.child("opcs-poe-final")
 
 
 
@@ -65,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        addCategoryButton.setOnClickListener {
+        /*addCategoryButton.setOnClickListener {
             val date = entryDateEditText.text.toString()
             val startTime = startTimeEditText.text.toString()
             val endTime = endTimeEditText.text.toString()
@@ -94,7 +104,27 @@ class MainActivity : AppCompatActivity() {
 
                     // Mark that it's no longer the first launch
                     prefs.edit().putBoolean(FIRST_LAUNCH, false).apply()
-                }
+                }*/
+
+        addCategoryButton.setOnClickListener {
+            val date = entryDateEditText.text.toString()
+            val startTime = startTimeEditText.text.toString()
+            val endTime = endTimeEditText.text.toString()
+            val description = descriptionEditText.text.toString()
+
+            val userImage = categoryManager.selectImageForCategory(this, SELECT_IMAGE_REQUEST_CODE)
+
+            if (date.isNotEmpty() && startTime.isNotEmpty() && endTime.isNotEmpty() && description.isNotEmpty()) {
+                val timesheetEntry = TimesheetEntry(date, startTime, endTime, description, imageUrl = null)
+
+                // Call a function to save the timesheet entry to Firebase
+                saveTimesheetEntryToFirebase(timesheetEntry)
+
+                // Clear the input fields or perform any other desired actions
+                entryDateEditText.text.clear()
+                startTimeEditText.text.clear()
+                endTimeEditText.text.clear()
+                descriptionEditText.text.clear()
 
 
             }
@@ -120,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+/*
     private fun saveTimesheetEntry(entry: TimesheetEntry) {
         // Retrieve the existing list of saved entries from shared preferences
         val gson = Gson()
@@ -135,6 +165,14 @@ class MainActivity : AppCompatActivity() {
         // Save the updated set of entries to shared preferences
         val sharedPreferences = getSharedPreferences("TimesheetEntries", Context.MODE_PRIVATE)
         sharedPreferences.edit().putStringSet("timesheet_entries", updatedEntriesSet).apply()
+    }*/
+
+    private fun saveTimesheetEntryToFirebase(entry: TimesheetEntry) {
+        // Push the entry to the Firebase Realtime Database
+        val entryKey = databaseReference.push().key
+        entryKey?.let {
+            databaseReference.child(it).setValue(entry)
+        }
     }
 
 
