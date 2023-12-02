@@ -10,5 +10,5 @@ data class TimesheetEntry(
     var nk_pevOnB_ewmEVqpjS: String? = null // Replace dashes with underscores
 ) {
     // Add a default, no-argument constructor
-    constructor() : this("", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "","")
 }
