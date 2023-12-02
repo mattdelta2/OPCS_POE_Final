@@ -31,7 +31,7 @@ class Graphs : AppCompatActivity() {
     }
 
     private fun setupPieChart() {
-        pieChart.description.isEnabled = false
+        pieChart.description.isEnabled = true
         pieChart.setDrawHoleEnabled(true)
         pieChart.setHoleColor(android.R.color.white)
         pieChart.setTransparentCircleRadius(25f)
