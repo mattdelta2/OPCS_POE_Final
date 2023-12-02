@@ -129,20 +129,18 @@ class MainActivity : AppCompatActivity() {
         }*/
 
         addCategoryButton.setOnClickListener {
-            val categoryName = categoryNameEditText.text.toString()
             val date = entryDateEditText.text.toString()
             val startTime = startTimeEditText.text.toString()
             val endTime = endTimeEditText.text.toString()
             val description = descriptionEditText.text.toString()
 
             if (date.isNotEmpty() && startTime.isNotEmpty() && endTime.isNotEmpty() && description.isNotEmpty()) {
-                val timesheetEntry = TimesheetEntry(categoryName,date, startTime, endTime, description, imageUrl = null)
+                val timesheetEntry = TimesheetEntry(date, startTime, endTime, description, imageUrl = null)
 
                 // Call a function to save the timesheet entry to Firebase
                 saveTimesheetEntryToFirebase(timesheetEntry)
 
                 // Clear the input fields or perform any other desired actions
-                categoryNameEditText.text.clear()
                 entryDateEditText.text.clear()
                 startTimeEditText.text.clear()
                 endTimeEditText.text.clear()
