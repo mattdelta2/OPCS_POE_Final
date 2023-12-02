@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun clearJsonFile() {
+  /*  private fun clearJsonFile() {
         try {
             val filename = "your_json_file_name.json"
             val outputStreamWriter = openFileOutput(filename, Context.MODE_PRIVATE)
@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
+    }*/
 
 /*
     private fun saveTimesheetEntry(entry: TimesheetEntry) {

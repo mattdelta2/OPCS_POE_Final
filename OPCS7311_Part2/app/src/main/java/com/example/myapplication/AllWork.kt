@@ -34,11 +34,11 @@ class AllWork : AppCompatActivity() {
         val entriesRecyclerView = findViewById<RecyclerView>(R.id.entriesRecyclerView)
 
         //database
-        databaseReference = FirebaseDatabase.getInstance().reference.child("timesheet_entries")
+        databaseReference = FirebaseDatabase.getInstance("https://opcs-poe-final-default-rtdb.europe-west1.firebasedatabase.app").reference
 
 
         //initilise and set adapter
-        adapter = TimesheetEntryAdapter(emptyList())
+        adapter = TimesheetEntryAdapter()
         entriesRecyclerView.adapter = adapter
 
         //fetch data from database
@@ -65,7 +65,7 @@ class AllWork : AppCompatActivity() {
                 }
 
                 // Update the RecyclerView adapter with the new list of entries
-               // adapter.submitList(timesheetEntries)
+                adapter.submitList(timesheetEntries)
             }
 
             override fun onCancelled(error: DatabaseError) {

@@ -1,13 +1,14 @@
 package com.example.myapplication
 
 data class TimesheetEntry(
-    val categoryName: String? = null,
-    val date: String? = null,
-    val startTime: String? = null,
-    val endTime: String? = null,
-    val description: String? = null,
-    val imageUrl: String? = null
+    var categoryName: String? = null, // Add a setter or field for 'category'
+    var date: String? = null,
+    var startTime: String? = null,
+    var endTime: String? = null,
+    var description: String? = null,
+    var imageUrl: String? = null,
+    var nk_pevOnB_ewmEVqpjS: String? = null // Replace dashes with underscores
 ) {
     // Add a default, no-argument constructor
-    constructor() : this("", "", "", "", "")
+    constructor() : this("", "", "", "", "", "")
 }

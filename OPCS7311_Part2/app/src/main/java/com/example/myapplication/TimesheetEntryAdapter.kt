@@ -1,15 +1,15 @@
 package com.example.myapplication
-// Import necessary packages
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
 import com.example.myapplication.TimesheetEntry
 
-class TimesheetEntryAdapter(private val entries: List<TimesheetEntry>) :
-    RecyclerView.Adapter<TimesheetEntryAdapter.EntryViewHolder>() {
+class TimesheetEntryAdapter :
+    ListAdapter<TimesheetEntry, TimesheetEntryAdapter.EntryViewHolder>(TimesheetEntryDiffCallback()) {
 
     class EntryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         // Define your views inside the ViewHolder if needed
@@ -21,12 +21,13 @@ class TimesheetEntryAdapter(private val entries: List<TimesheetEntry>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_all_work, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.activity_all_work, parent, false)
         return EntryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: EntryViewHolder, position: Int) {
-        val entry = entries[position]
+        val entry = getItem(position)
 
         // Bind the data to the views inside the item's layout
         holder.categoryTextView.text = "Category: ${entry.categoryName}"
@@ -35,6 +36,14 @@ class TimesheetEntryAdapter(private val entries: List<TimesheetEntry>) :
         holder.endTimeTextView.text = "End Time: ${entry.endTime}"
         holder.descriptionTextView.text = "Description: ${entry.description}"
     }
+}
 
-    override fun getItemCount() = entries.size
+class TimesheetEntryDiffCallback : DiffUtil.ItemCallback<TimesheetEntry>() {
+    override fun areItemsTheSame(oldItem: TimesheetEntry, newItem: TimesheetEntry): Boolean {
+        return oldItem == newItem
+    }
+
+    override fun areContentsTheSame(oldItem: TimesheetEntry, newItem: TimesheetEntry): Boolean {
+        return oldItem == newItem
+    }
 }
