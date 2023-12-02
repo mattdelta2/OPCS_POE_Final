@@ -7,8 +7,8 @@ data class TimesheetEntry(
     var endTime: String? = null,
     var description: String? = null,
     var imageUrl: String? = null,
-    var nk_pevOnB_ewmEVqpjS: String? = null // Replace dashes with underscores
+    var nk_pevOnB_ewmEVqpjS: String? = null //from emulator
 ) {
     // Add a default, no-argument constructor
-    constructor() : this("", "", "", "", "", "","")
+    constructor() : this("", "", "", "", "")
 }

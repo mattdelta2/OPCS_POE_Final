@@ -22,7 +22,7 @@ class TimesheetEntryAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_all_work, parent, false)
+            .inflate(R.layout.item_timesheet_entry, parent, false)
         return EntryViewHolder(view)
     }
 

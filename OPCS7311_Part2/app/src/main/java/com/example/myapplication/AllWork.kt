@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -40,6 +42,7 @@ class AllWork : AppCompatActivity() {
         //initilise and set adapter
         adapter = TimesheetEntryAdapter()
         entriesRecyclerView.adapter = adapter
+        entriesRecyclerView.layoutManager = LinearLayoutManager(this)
 
         //fetch data from database
         fetchDataFromFirebase()
@@ -61,35 +64,41 @@ class AllWork : AppCompatActivity() {
                 // Iterate through the data in the snapshot and add it to the list
                 for (entrySnapshot in snapshot.children) {
                     val entry = entrySnapshot.getValue(TimesheetEntry::class.java)
-                    entry?.let { timesheetEntries.add(it) }
+                    entry?.let {
+                        timesheetEntries.add(it)
+                        Log.d("FirebaseData", "Fetched entry: $it")
+                    }
                 }
 
                 // Update the RecyclerView adapter with the new list of entries
                 adapter.submitList(timesheetEntries)
+                Log.d("FirebaseData", "Data updated. Entries count: ${timesheetEntries.size}")
             }
 
             override fun onCancelled(error: DatabaseError) {
                 // Handle the error, if needed
+                // For now, print an error message
                 error.toException().printStackTrace()
+                Log.e("FirebaseData", "Error fetching data: ${error.message}")
             }
         })
     }
-/*
-    private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
-        val sharedPreferences = getSharedPreferences("TimesheetEntries", Context.MODE_PRIVATE)
-        val gson = Gson()
-        val entriesSet = sharedPreferences.getStringSet("timesheet_entries", setOf()) ?: setOf()
+    /*
+        private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
+            val sharedPreferences = getSharedPreferences("TimesheetEntries", Context.MODE_PRIVATE)
+            val gson = Gson()
+            val entriesSet = sharedPreferences.getStringSet("timesheet_entries", setOf()) ?: setOf()
 
-        // Convert the entriesSet back to a list of TimesheetEntry
-        val timesheetEntries = entriesSet.mapNotNull {
-            try {
-                gson.fromJson(it, TimesheetEntry::class.java)
-            } catch (e: Exception) {
-                null
+            // Convert the entriesSet back to a list of TimesheetEntry
+            val timesheetEntries = entriesSet.mapNotNull {
+                try {
+                    gson.fromJson(it, TimesheetEntry::class.java)
+                } catch (e: Exception) {
+                    null
+                }
             }
-        }
-        return timesheetEntries
-    }*/
+            return timesheetEntries
+        }*/
 
     /*private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
         val timesheetEntries = mutableListOf<TimesheetEntry>()
@@ -126,3 +135,5 @@ class AllWork : AppCompatActivity() {
         finish()
     }
 }
+
+
