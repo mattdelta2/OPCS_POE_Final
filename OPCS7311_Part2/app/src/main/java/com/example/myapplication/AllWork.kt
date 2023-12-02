@@ -11,12 +11,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import com.example.myapplication.TimesheetEntryAdapter
 
 class AllWork : AppCompatActivity() {
 
 
     private lateinit var backButton: ImageButton
     private lateinit var adapter: TimesheetEntryAdapter
+    private lateinit var databaseReference: DatabaseReference
 
 
 
@@ -26,13 +29,20 @@ class AllWork : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_all_work)
 
+
+
         val entriesRecyclerView = findViewById<RecyclerView>(R.id.entriesRecyclerView)
 
-        // Retrieve the saved timesheet entries
-        val timesheetEntries = getSavedTimesheetEntries()
+        //database
+        databaseReference = FirebaseDatabase.getInstance().reference.child("timesheet_entries")
 
-        // Initialize and set the adapter for the RecyclerView
-        adapter = TimesheetEntryAdapter(timesheetEntries)
+
+        //initilise and set adapter
+        adapter = TimesheetEntryAdapter(emptyList())
+        entriesRecyclerView.adapter = adapter
+
+        //fetch data from database
+        fetchDataFromFirebase()
 
         backButton = findViewById(R.id.backBTN)
         backButton.setOnClickListener{(back())}
@@ -41,6 +51,28 @@ class AllWork : AppCompatActivity() {
 
 
 
+    }
+    private fun fetchDataFromFirebase() {
+        // Attach a ValueEventListener to the database reference
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val timesheetEntries = mutableListOf<TimesheetEntry>()
+
+                // Iterate through the data in the snapshot and add it to the list
+                for (entrySnapshot in snapshot.children) {
+                    val entry = entrySnapshot.getValue(TimesheetEntry::class.java)
+                    entry?.let { timesheetEntries.add(it) }
+                }
+
+                // Update the RecyclerView adapter with the new list of entries
+               // adapter.submitList(timesheetEntries)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error, if needed
+                error.toException().printStackTrace()
+            }
+        })
     }
 /*
     private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
@@ -59,7 +91,7 @@ class AllWork : AppCompatActivity() {
         return timesheetEntries
     }*/
 
-    private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
+    /*private fun getSavedTimesheetEntries(): List<TimesheetEntry> {
         val timesheetEntries = mutableListOf<TimesheetEntry>()
 
         val databaseReference = FirebaseDatabase.getInstance().reference.child("timesheet_entries")
@@ -85,7 +117,7 @@ class AllWork : AppCompatActivity() {
         })
 
         return timesheetEntries
-    }
+    }*/
 
     private fun back()
     {

@@ -1,10 +1,12 @@
 package com.example.myapplication
-
+// Import necessary packages
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.R
+import com.example.myapplication.TimesheetEntry
 
 class TimesheetEntryAdapter(private val entries: List<TimesheetEntry>) :
     RecyclerView.Adapter<TimesheetEntryAdapter.EntryViewHolder>() {
@@ -36,5 +38,3 @@ class TimesheetEntryAdapter(private val entries: List<TimesheetEntry>) :
 
     override fun getItemCount() = entries.size
 }
-
-
