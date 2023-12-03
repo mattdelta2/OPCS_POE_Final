@@ -6,11 +6,13 @@ import android.util.Log
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 
@@ -28,8 +30,7 @@ class Graphs : AppCompatActivity() {
         setupBarChart()
 
         // Initialize the Firebase Database reference
-        databaseReference =
-            FirebaseDatabase.getInstance("https://opcs-poe-final-default-rtdb.europe-west1.firebasedatabase.app/").reference
+        databaseReference = FirebaseDatabase.getInstance("https://opcs-poe-final-default-rtdb.europe-west1.firebasedatabase.app/").reference
 
         // Fetch and display data when the activity is created
         fetchDataFromDatabase()
@@ -49,53 +50,64 @@ class Graphs : AppCompatActivity() {
         barChart.setDrawValueAboveBar(true)
         barChart.setDrawGridBackground(false)
 
+        val yAxisLeft = barChart.axisLeft
+        yAxisLeft.setDrawGridLines(false)
+        yAxisLeft.textSize = 10f
+
         val xAxis = barChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
+        xAxis.setGranularity(1f) // set the granularity to 1 to show one label per category
 
-        val yAxisLeft = barChart.axisLeft
-        yAxisLeft.setDrawGridLines(false)
+        xAxis.textSize = 20f
+
+        yAxisLeft.axisMinimum = 0f // Set the minimum value on the Y-axis
+        yAxisLeft.setLabelCount(5, true) // Set the number of labels on the Y-axis
+        yAxisLeft.axisMaximum = 10f // Set the maximum value on the Y-axis
+        yAxisLeft.setDrawLabels(true) // Show labels on the Y-axis
+
+        // Add Y-axis label
+        val yAxisLabel = YAxisLabelFormatter("Hours")
+        yAxisLeft.valueFormatter = yAxisLabel
 
         val yAxisRight = barChart.axisRight
         yAxisRight.setDrawGridLines(false)
         yAxisRight.isEnabled = false
+
+
     }
 
     private fun fetchDataFromDatabase() {
         val databaseNode = "timesheet_entries"
 
-        databaseReference.child(databaseNode)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    Log.d("FirebaseData", "Number of entries: ${snapshot.childrenCount}")
+        databaseReference.child(databaseNode).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Log.d("FirebaseData", "Number of entries: ${snapshot.childrenCount}")
 
-                    val categoryHoursMap = mutableMapOf<String, Float>()
+                val categoryHoursMap = mutableMapOf<String, Float>()
 
-                    for (entrySnapshot in snapshot.children) {
-                        val entry = entrySnapshot.getValue(TimesheetEntry::class.java)
-                        if (entry != null) {
-                            val categoryName = entry.categoryName
-                            val startTime = entry.startTime
-                            val endTime = entry.endTime
+                for (entrySnapshot in snapshot.children) {
+                    val entry = entrySnapshot.getValue(TimesheetEntry::class.java)
+                    if (entry != null) {
+                        val categoryName = entry.categoryName
+                        val startTime = entry.startTime
+                        val endTime = entry.endTime
 
-                            if (categoryName != null && startTime != null && endTime != null) {
-                                val hours = calculateHours(startTime, endTime)
-                                categoryHoursMap.merge(
-                                    categoryName,
-                                    hours
-                                ) { existing, new -> existing + new }
-                            }
+                        if (categoryName != null && startTime != null && endTime != null) {
+                            val hours = calculateHours(startTime, endTime)
+                            categoryHoursMap.merge(categoryName, hours) { existing, new -> existing + new }
                         }
                     }
-
-                    displayCategoryHoursChart(categoryHoursMap)
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    // Handle the error, if needed
-                    Log.e("FirebaseData", "Error fetching data: ${error.message}")
-                }
-            })
+                displayCategoryHoursChart(categoryHoursMap)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error, if needed
+                Log.e("FirebaseData", "Error fetching data: ${error.message}")
+            }
+        })
     }
 
     private fun displayCategoryHoursChart(categoryHoursMap: Map<String, Float>) {
@@ -103,15 +115,27 @@ class Graphs : AppCompatActivity() {
             BarEntry(index.toFloat(), entry.value)
         }
 
-        val dataSet = BarDataSet(barEntries, "Category Hours")
-        dataSet.colors = mutableListOf(
-            android.R.color.holo_red_light,
-            android.R.color.holo_blue_light,
-            android.R.color.holo_green_light,
+        // Define your custom colors for each bar
+        val customColors = intArrayOf(
+            0xFF00FF00.toInt(),  // Green
+            0xFFFF0000.toInt(),  // Red
+            0xFF0000FF.toInt(),  // Blue
+
             // Add more colors as needed
         )
 
+        val dataSet = BarDataSet(barEntries, "Category Hours")
+
+        // Set custom colors for each bar
+        dataSet.colors = customColors.toList()
+
         val data = BarData(dataSet)
+
+        // Set category names as labels on the X-axis
+        val categoryNames = categoryHoursMap.keys.toTypedArray()
+        val xAxis = barChart.xAxis
+        xAxis.valueFormatter = CategoryAxisValueFormatter(categoryNames)
+
         barChart.data = data
 
         barChart.invalidate()
@@ -146,3 +170,21 @@ class Graphs : AppCompatActivity() {
     }
 }
 
+class CategoryAxisValueFormatter(private val categories: Array<String>) : com.github.mikephil.charting.formatter.ValueFormatter() {
+
+    override fun getFormattedValue(value: Float): String {
+        val index = value.toInt()
+        return if (index >= 0 && index < categories.size) {
+            categories[index]
+        } else {
+            ""
+        }
+    }
+}
+
+class YAxisLabelFormatter(private val label: String) : ValueFormatter() {
+
+    override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+        return "$value $label"  // Append the label to the value
+    }
+}

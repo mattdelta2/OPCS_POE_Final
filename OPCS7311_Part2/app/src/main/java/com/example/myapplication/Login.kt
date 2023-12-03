@@ -41,18 +41,23 @@ class Login : AppCompatActivity() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // User login successful, navigate to MainMenu
-                    val intent = Intent(this, MainMenu::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    // If login fails, display a message to the user.
-                    Toast.makeText(baseContext, "Login failed. ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+        if (email.isEmpty() || password.isEmpty()) {
+            // Display an error message because the required information is missing
+            showToast("Please enter your email and password.")
+        } else {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // User login successful, navigate to MainMenu
+                        val intent = Intent(this, MainMenu::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // If login fails, display a message to the user.
+                        Toast.makeText(baseContext, "Login failed. ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
+        }
     }
 
     private fun handleRegistration() {
@@ -62,18 +67,32 @@ class Login : AppCompatActivity() {
         val email = emailEditText.text.toString()
         val password = passwordEditText.text.toString()
 
-        // Example: Register user
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
+        if (email.isEmpty() || password.isEmpty()) {
+            // Display an error message because the required information is missing
+            showToast("Please enter your email and password.")
+        } else {
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
 
 
-                    Toast.makeText(baseContext, "Registration successful!", Toast.LENGTH_SHORT).show()
-                } else {
-                    // If registration fails, display a message to the user.
-                    Toast.makeText(baseContext, "Registration failed. ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(baseContext, "Registration successful!", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        // If registration fails, display a message to the user.
+                        Toast.makeText(
+                            baseContext,
+                            "Registration failed. ${task.exception?.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
 
