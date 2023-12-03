@@ -40,7 +40,7 @@
         android:scaleY="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextText2"
-        app:srcCompat="@drawable/loginbutton" />
+        app:srcCompat="@drawable/loginrecolor" />
 
     <ImageButton
         android:id="@+id/btnRegister"
@@ -54,7 +54,7 @@
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:srcCompat="@drawable/registerbuttonexport" />
+        app:srcCompat="@drawable/registerrecolor" />
 
     <ImageView
         android:id="@+id/imageView8"

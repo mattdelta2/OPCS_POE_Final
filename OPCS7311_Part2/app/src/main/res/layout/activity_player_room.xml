@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toStartOf="@+id/Timerbtn"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/shopbutton" />
+        app:srcCompat="@drawable/shoprecolor" />
 
     <ImageView
         android:id="@+id/imageView6"
@@ -59,7 +59,7 @@
         android:scaleY="2"
         app:layout_constraintBottom_toTopOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/timerbutton" />
+        app:srcCompat="@drawable/timerrecolor" />
 
     <ImageButton
         android:id="@+id/backBtn"
@@ -72,7 +72,7 @@
         android:scaleY="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/backbutton" />
+        app:srcCompat="@drawable/backrecolor" />
 
     <ImageView
         android:id="@+id/imageView7"

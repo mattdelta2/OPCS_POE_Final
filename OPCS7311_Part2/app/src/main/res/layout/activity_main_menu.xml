@@ -18,7 +18,7 @@
         android:scaleY="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/category" />
+        app:srcCompat="@drawable/categoryrecolor" />
 
     <ImageButton
         android:id="@+id/btnRoom"
@@ -44,7 +44,7 @@
         android:scaleY="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnList"
-        app:srcCompat="@drawable/shopbutton" />
+        app:srcCompat="@drawable/shoprecolor" />
 
     <ImageButton
         android:id="@+id/btnTimer"
@@ -57,7 +57,7 @@
         android:scaleY="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRoom"
-        app:srcCompat="@drawable/timerbutton" />
+        app:srcCompat="@drawable/timerrecolor" />
 
     <ImageButton
         android:id="@+id/btnDate"
@@ -70,7 +70,7 @@
         android:scaleY="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnShop"
-        app:srcCompat="@drawable/datebutton" />
+        app:srcCompat="@drawable/daterecolor" />
 
     <ImageButton
         android:id="@+id/btnList"
@@ -83,7 +83,7 @@
         android:scaleY="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/listbutton" />
+        app:srcCompat="@drawable/listrecolor" />
 
     <ImageButton
         android:id="@+id/btnGraph"
@@ -96,7 +96,7 @@
         android:scaleY="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnTimer"
-        app:srcCompat="@drawable/graphbutton" />
+        app:srcCompat="@drawable/graphrecolor" />
 
     <ImageButton
         android:id="@+id/btnGoals"
@@ -110,6 +110,6 @@
         android:tint="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnDate"
-        app:srcCompat="@drawable/graphbutton" />
+        app:srcCompat="@drawable/goalsbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
