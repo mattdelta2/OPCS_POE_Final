@@ -1,9 +1,5 @@
 package com.example.myapplication
 
-// Login.kt
-
-// Login.kt
-
 import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
@@ -70,8 +66,8 @@ class Login : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // User registration successful, now save additional data to the database
-                    saveUserDataToDatabase(auth.currentUser?.uid, "John Doe", email)
+
+
                     Toast.makeText(baseContext, "Registration successful!", Toast.LENGTH_SHORT).show()
                 } else {
                     // If registration fails, display a message to the user.
@@ -80,11 +76,6 @@ class Login : AppCompatActivity() {
             }
     }
 
-    private fun saveUserDataToDatabase(userId: String?, username: String, email: String) {
-        val user = User(userId, username, email)
-        userId?.let {
-            databaseReference.child("users").child(userId).setValue(user)
-        }
-    }
+
 }
 
