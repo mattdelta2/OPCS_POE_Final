@@ -74,6 +74,18 @@ class MainMenu : AppCompatActivity() {
             finish()
         }
 
+        val graphButton = findViewById<ImageButton>(R.id.btnGraph)
+
+        graphButton.setOnClickListener()
+        {
+            val intent = Intent(this, Graphs::class.java)
+
+            startActivity(intent)
+            finish()
+
+        }
+
+
 
 
 
