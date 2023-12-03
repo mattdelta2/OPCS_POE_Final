@@ -4,14 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DailyGoals"
-    android:background="#7339D3">
+    android:background="#7339D3"
+    tools:context=".DailyGoals">
+
+    <Button
+        android:id="@+id/btnSaveGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextMinGoal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="104dp"
+        android:padding="8dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:text="Save Goals"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMinGoal" />
 
     <EditText
         android:id="@+id/editTextMaxGoal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="72dp"
         android:hint="Enter Max Goal"
         android:inputType="numberDecimal"
         android:padding="8dp"
@@ -23,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextMaxGoal"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="76dp"
         android:hint="Enter Min Goal"
         android:inputType="numberDecimal"
         android:padding="8dp"
@@ -35,26 +50,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/editTextMaxGoal"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="156dp"
         android:hint="Enter Date (e.g., 2023-09-30)"
         android:inputType="date"
         android:padding="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnSaveGoals"
+    <ImageButton
+        android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextMinGoal"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="99dp"
-        android:padding="8dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="18dp"
+        android:background="#00FFFFFF"
         android:scaleX="2"
         android:scaleY="2"
-        android:text="Save Goals"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextMinGoal" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/backrecolor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

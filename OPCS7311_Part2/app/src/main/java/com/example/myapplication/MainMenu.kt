@@ -94,6 +94,14 @@ class MainMenu : AppCompatActivity() {
             finish()
         }
 
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
+
+        btnBack.setOnClickListener()
+            {
+                val intent = Intent(this, Login::class.java)
+            }
+
+
 
 
 
