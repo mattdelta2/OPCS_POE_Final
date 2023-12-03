@@ -11,7 +11,7 @@
         android:id="@+id/imageView4"
         android:layout_width="277dp"
         android:layout_height="454dp"
-        android:layout_marginStart="84dp"
+        android:layout_marginStart="96dp"
         android:layout_marginTop="2dp"
         android:scaleX="2"
         android:scaleY="2"
@@ -19,19 +19,17 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
         app:srcCompat="@drawable/lofi_girl_copy" />
 
+
     <ImageButton
         android:id="@+id/Shopbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
-        android:layout_marginEnd="136dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="#00FFFFFF"
         android:scaleX="2"
         android:scaleY="2"
-        app:layout_constraintBottom_toTopOf="@+id/imageView7"
-        app:layout_constraintEnd_toStartOf="@+id/Timerbtn"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/shoprecolor" />
 
@@ -39,25 +37,24 @@
         android:id="@+id/imageView6"
         android:layout_width="139dp"
         android:layout_height="64dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="124dp"
+        android:layout_marginTop="120dp"
         android:scaleX="3"
         android:scaleY="3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/roombutton" />
-
 
     <ImageButton
         android:id="@+id/Timerbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="29dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="#00FFFFFF"
         android:scaleX="2"
         android:scaleY="2"
-        app:layout_constraintBottom_toTopOf="@+id/imageView7"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/timerrecolor" />
 
@@ -74,14 +71,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/backrecolor" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="92dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        app:srcCompat="@drawable/emptyfiller4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
