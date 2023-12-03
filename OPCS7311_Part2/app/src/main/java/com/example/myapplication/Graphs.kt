@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -14,6 +16,7 @@ class Graphs : AppCompatActivity() {
 
     private lateinit var pieChart: PieChart
     private lateinit var databaseReference: DatabaseReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,15 @@ class Graphs : AppCompatActivity() {
 
         // Fetch and display data when the activity is created
         fetchDataFromDatabase()
+
+        val backButton = findViewById<ImageButton>(R.id.btnBack)
+
+        backButton.setOnClickListener()
+        {
+            val intent = Intent(this, MainMenu::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun setupPieChart() {
@@ -104,5 +116,11 @@ class Graphs : AppCompatActivity() {
         }
 
         return 0.0f
+
+
+
     }
+
+
+
 }
