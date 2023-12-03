@@ -52,7 +52,7 @@ class Graphs : AppCompatActivity() {
 
         val yAxisLeft = barChart.axisLeft
         yAxisLeft.setDrawGridLines(false)
-        yAxisLeft.textSize = 10f
+        yAxisLeft.textSize = 15f
 
         val xAxis = barChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
@@ -62,8 +62,8 @@ class Graphs : AppCompatActivity() {
         xAxis.textSize = 20f
 
         yAxisLeft.axisMinimum = 0f // Set the minimum value on the Y-axis
-        yAxisLeft.setLabelCount(5, true) // Set the number of labels on the Y-axis
-        yAxisLeft.axisMaximum = 10f // Set the maximum value on the Y-axis
+        yAxisLeft.setLabelCount(6, true) // Set the number of labels on the Y-axis
+         yAxisLeft.axisMaximum = 20f // Set the maximum value on the Y-axis
         yAxisLeft.setDrawLabels(true) // Show labels on the Y-axis
 
         // Add Y-axis label
@@ -117,17 +117,25 @@ class Graphs : AppCompatActivity() {
 
         // Define your custom colors for each bar
         val customColors = intArrayOf(
-            0xFF00FF00.toInt(),  // Green
-            0xFFFF0000.toInt(),  // Red
-            0xFF0000FF.toInt(),  // Blue
-
-            // Add more colors as needed
+            0xFFE34234.toInt(),  // Vermilion
+            0xFFE55D3F.toInt(),
+            0xFFE7774A.toInt(),
+            0xFFE99255.toInt(),
+            0xFFEAAE60.toInt(),
+            0xFFEBC96B.toInt(),
+            0xFFEDD476.toInt(),
+            0xFFEEEF81.toInt(),
+            0xFFEFFF8C.toInt(),
+            0xFFF0FF97.toInt()
         )
 
         val dataSet = BarDataSet(barEntries, "Category Hours")
 
         // Set custom colors for each bar
         dataSet.colors = customColors.toList()
+
+        // Disable drawing values above bars
+        dataSet.setDrawValues(false)
 
         val data = BarData(dataSet)
 
