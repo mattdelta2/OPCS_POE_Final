@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 data class Goals(
-    val maxGoal: Float,
-    val minGoal: Float
+    val date:String = "",
+    val maxGoal: String = "",
+    val minGoal: String = ""
 )

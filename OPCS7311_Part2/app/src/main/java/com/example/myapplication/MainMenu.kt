@@ -89,7 +89,7 @@ class MainMenu : AppCompatActivity() {
 
         goalsButton.setOnClickListener()
         {
-            val intent = Intent(this, Goals::class.java)
+            val intent = Intent(this, DailyGoals::class.java)
             startActivity(intent)
             finish()
         }

@@ -3,7 +3,9 @@ package com.example.myapplication
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.AxisBase
@@ -20,6 +22,8 @@ class Graphs : AppCompatActivity() {
 
     private lateinit var barChart: BarChart
     private lateinit var databaseReference: DatabaseReference
+    private lateinit var editTextDate: EditText
+    private lateinit var textViewDailyGoals: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +38,9 @@ class Graphs : AppCompatActivity() {
 
         // Fetch and display data when the activity is created
         fetchDataFromDatabase()
+
+        editTextDate = findViewById(R.id.EditText)
+        textViewDailyGoals = findViewById(R.id.textViewDailyGoals)
 
         val backButton = findViewById<ImageButton>(R.id.btnBack)
 
@@ -63,7 +70,7 @@ class Graphs : AppCompatActivity() {
 
         yAxisLeft.axisMinimum = 0f // Set the minimum value on the Y-axis
         yAxisLeft.setLabelCount(6, true) // Set the number of labels on the Y-axis
-         yAxisLeft.axisMaximum = 20f // Set the maximum value on the Y-axis
+        yAxisLeft.axisMaximum = 20f // Set the maximum value on the Y-axis
         yAxisLeft.setDrawLabels(true) // Show labels on the Y-axis
 
         // Add Y-axis label
@@ -73,13 +80,12 @@ class Graphs : AppCompatActivity() {
         val yAxisRight = barChart.axisRight
         yAxisRight.setDrawGridLines(false)
         yAxisRight.isEnabled = false
-
-
     }
 
     private fun fetchDataFromDatabase() {
         val databaseNode = "timesheet_entries"
 
+        // Continue with your existing code for fetching timesheet_entries
         databaseReference.child(databaseNode).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 Log.d("FirebaseData", "Number of entries: ${snapshot.childrenCount}")
@@ -175,6 +181,49 @@ class Graphs : AppCompatActivity() {
         }
 
         return 0.0f
+    }
+
+    private fun updateGraph() {
+        val chosenDate = editTextDate.text.toString()
+
+        // Add logic to update the graph based on the chosen date
+        // For example, you can fetch data for the selected date from the database
+        // and update the graph accordingly.
+
+        // After updating the graph, you can also fetch and display the daily goals for the chosen date
+        fetchAndDisplayDailyGoals(chosenDate)
+    }
+
+    private fun fetchAndDisplayDailyGoals(chosenDate: String) {
+        // Fetch daily goals for the chosen date from the database
+        val databaseNode = "daily_goals"
+
+        databaseReference.child(databaseNode).child(chosenDate).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    val dailyGoals = snapshot.getValue(Goals::class.java)
+
+                    // Now you have the daily goals, you can use them as needed
+                    // For example, you can display them in your UI or use them for calculations
+
+                    if (dailyGoals != null) {
+                        val maxGoal = dailyGoals.maxGoal
+                        val minGoal = dailyGoals.minGoal
+
+                        // Update your UI with the daily goals
+                        textViewDailyGoals.text = "Max Goal: $maxGoal, Min Goal: $minGoal"
+                    }
+                } else {
+                    // Handle the case where there are no daily goals for the chosen date
+                    textViewDailyGoals.text = "No goals set for the chosen date."
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle the error, if needed
+                Log.e("FirebaseData", "Error fetching data: ${error.message}")
+            }
+        })
     }
 }
 
