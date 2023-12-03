@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
-        android:src="@drawable/backbutton" />
+        android:src="@drawable/backrecolor" />
 
     <EditText
         android:id="@+id/categoryEditText"
