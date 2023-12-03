@@ -189,10 +189,10 @@ class MainActivity : AppCompatActivity() {
     }*/
 
     private fun saveTimesheetEntryToFirebase(entry: TimesheetEntry) {
-        // Push the entry to the Firebase Realtime Database
-        val entryKey = databaseReference.push().key
+        // Push the entry to the "timesheet_entries" node in the Firebase Realtime Database
+        val entryKey = databaseReference.child("timesheet_entries").push().key
         entryKey?.let {
-            databaseReference.child(it).setValue(entry)
+            databaseReference.child("timesheet_entries").child(it).setValue(entry)
         }
     }
 

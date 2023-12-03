@@ -32,13 +32,13 @@
         android:id="@+id/startTimeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Start Time (e.g., 09:00 AM)" />
+        android:hint="Start Time (e.g., 09:00 )" />
 
     <EditText
         android:id="@+id/endTimeEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="End Time (e.g., 05:00 PM)" />
+        android:hint="End Time (e.g., 17:00 )" />
 
     <EditText
         android:id="@+id/descriptionEditText"

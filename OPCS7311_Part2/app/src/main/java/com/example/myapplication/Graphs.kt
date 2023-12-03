@@ -5,98 +5,125 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
 
 class Graphs : AppCompatActivity() {
 
-    private lateinit var pieChart: PieChart
+    private lateinit var barChart: BarChart
     private lateinit var databaseReference: DatabaseReference
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graphs)
 
-        // Initialize the PieChart
-        pieChart = findViewById(R.id.pieChart)
-        setupPieChart()
+        // Initialize the BarChart
+        barChart = findViewById(R.id.barChart)
+        setupBarChart()
 
         // Initialize the Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance("https://opcs-poe-final-default-rtdb.europe-west1.firebasedatabase.app/").reference
+        databaseReference =
+            FirebaseDatabase.getInstance("https://opcs-poe-final-default-rtdb.europe-west1.firebasedatabase.app/").reference
 
         // Fetch and display data when the activity is created
         fetchDataFromDatabase()
 
         val backButton = findViewById<ImageButton>(R.id.btnBack)
 
-        backButton.setOnClickListener()
-        {
+        backButton.setOnClickListener {
             val intent = Intent(this, MainMenu::class.java)
             startActivity(intent)
             finish()
         }
     }
 
-    private fun setupPieChart() {
-        pieChart.description.isEnabled = true
-        pieChart.setDrawHoleEnabled(true)
-        pieChart.setHoleColor(android.R.color.white)
-        pieChart.setTransparentCircleRadius(25f)
+    private fun setupBarChart() {
+        barChart.description.isEnabled = false
+        barChart.setDrawBarShadow(false)
+        barChart.setDrawValueAboveBar(true)
+        barChart.setDrawGridBackground(false)
+
+        val xAxis = barChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+
+        val yAxisLeft = barChart.axisLeft
+        yAxisLeft.setDrawGridLines(false)
+
+        val yAxisRight = barChart.axisRight
+        yAxisRight.setDrawGridLines(false)
+        yAxisRight.isEnabled = false
     }
 
     private fun fetchDataFromDatabase() {
         val databaseNode = "timesheet_entries"
 
-        databaseReference.child(databaseNode).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val categoryHoursMap = mutableMapOf<String, Float>()
+        databaseReference.child(databaseNode)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    Log.d("FirebaseData", "Number of entries: ${snapshot.childrenCount}")
 
-                // Iterate through the data in the snapshot and calculate total hours for each category
-                for (entrySnapshot in snapshot.children) {
-                    val entry = entrySnapshot.getValue(TimesheetEntry::class.java)
-                    if (entry != null && entry.categoryName != null && entry.startTime != null && entry.endTime != null) {
-                        // Store the values in local variables to avoid smart cast issues
-                        val startTime = entry.startTime
-                        val endTime = entry.endTime
+                    val categoryHoursMap = mutableMapOf<String, Float>()
 
-                       // val hours = calculateHours(startTime, endTime)
-                        //categoryHoursMap.merge(entry.categoryName, hours) { existing, new -> existing + new }
+                    for (entrySnapshot in snapshot.children) {
+                        val entry = entrySnapshot.getValue(TimesheetEntry::class.java)
+                        if (entry != null) {
+                            val categoryName = entry.categoryName
+                            val startTime = entry.startTime
+                            val endTime = entry.endTime
+
+                            if (categoryName != null && startTime != null && endTime != null) {
+                                val hours = calculateHours(startTime, endTime)
+                                categoryHoursMap.merge(
+                                    categoryName,
+                                    hours
+                                ) { existing, new -> existing + new }
+                            }
+                        }
                     }
+
+                    displayCategoryHoursChart(categoryHoursMap)
                 }
 
-                // Update the PieChart with the fetched data
-                displayCategoryHoursChart(categoryHoursMap)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Handle the error, if needed
-                Log.e("FirebaseData", "Error fetching data: ${error.message}")
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle the error, if needed
+                    Log.e("FirebaseData", "Error fetching data: ${error.message}")
+                }
+            })
     }
 
     private fun displayCategoryHoursChart(categoryHoursMap: Map<String, Float>) {
-        // Convert the map entries to PieEntries
-        val pieEntries = categoryHoursMap.entries.map { PieEntry(it.value, it.key) }
+        val barEntries = categoryHoursMap.entries.mapIndexed { index, entry ->
+            BarEntry(index.toFloat(), entry.value)
+        }
 
-        // Create a PieDataSet
-        val dataSet = PieDataSet(pieEntries, "Category Hours")
-        dataSet.colors = mutableListOf(android.R.color.holo_red_light, android.R.color.holo_blue_light)
+        val dataSet = BarDataSet(barEntries, "Category Hours")
+        dataSet.colors = mutableListOf(
+            android.R.color.holo_red_light,
+            android.R.color.holo_blue_light,
+            android.R.color.holo_green_light,
+            // Add more colors as needed
+        )
 
-        // Create a PieData and set it to the PieChart
-        val data = PieData(dataSet)
-        pieChart.data = data
+        val data = BarData(dataSet)
+        barChart.data = data
 
-        // Refresh the chart
-        pieChart.invalidate()
+        barChart.invalidate()
     }
 
-    private fun calculateHours(startTime: String, endTime: String): Float {
+    private fun calculateHours(startTime: String?, endTime: String?): Float {
+        Log.d("Graphs", "calculateHours: startTime=$startTime, endTime=$endTime")
+        // Check if either startTime or endTime is null
+        if (startTime == null || endTime == null) {
+            return 0.0f
+        }
+
         // Define the time format
         val format = SimpleDateFormat("HH:mm")
 
@@ -116,11 +143,6 @@ class Graphs : AppCompatActivity() {
         }
 
         return 0.0f
-
-
-
     }
-
-
-
 }
+
