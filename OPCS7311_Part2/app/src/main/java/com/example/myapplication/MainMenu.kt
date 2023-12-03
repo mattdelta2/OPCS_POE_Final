@@ -85,6 +85,15 @@ class MainMenu : AppCompatActivity() {
 
         }
 
+        val goalsButton = findViewById<ImageButton>(R.id.btnGoals)
+
+        goalsButton.setOnClickListener()
+        {
+            val intent = Intent(this, Goals::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
 
 

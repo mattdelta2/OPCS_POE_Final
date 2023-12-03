@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DailyGoals"
+    android:background="#7339D3">
+
+    <EditText
+        android:id="@+id/editTextMaxGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+        android:hint="Enter Max Goal"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextMinGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextMaxGoal"
+        android:layout_marginTop="73dp"
+        android:hint="Enter Min Goal"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMaxGoal" />
+
+    <Button
+        android:id="@+id/btnSaveGoals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextMinGoal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="161dp"
+        android:layout_marginTop="99dp"
+        android:padding="8dp"
+        android:scaleX="2"
+        android:scaleY="2"
+        android:text="Save Goals"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextMinGoal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
