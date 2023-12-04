@@ -186,11 +186,6 @@ class Graphs : AppCompatActivity() {
     private fun updateGraph() {
         val chosenDate = editTextDate.text.toString()
 
-        // Add logic to update the graph based on the chosen date
-        // For example, you can fetch data for the selected date from the database
-        // and update the graph accordingly.
-
-        // After updating the graph, you can also fetch and display the daily goals for the chosen date
         fetchAndDisplayDailyGoals(chosenDate)
     }
 
@@ -203,8 +198,7 @@ class Graphs : AppCompatActivity() {
                 if (snapshot.exists()) {
                     val dailyGoals = snapshot.getValue(Goals::class.java)
 
-                    // Now you have the daily goals, you can use them as needed
-                    // For example, you can display them in your UI or use them for calculations
+
 
                     if (dailyGoals != null) {
                         val maxGoal = dailyGoals.maxGoal
@@ -214,7 +208,7 @@ class Graphs : AppCompatActivity() {
                         textViewDailyGoals.text = "Max Goal: $maxGoal, Min Goal: $minGoal"
                     }
                 } else {
-                    // Handle the case where there are no daily goals for the chosen date
+
                     textViewDailyGoals.text = "No goals set for the chosen date."
                 }
             }
@@ -242,6 +236,6 @@ class CategoryAxisValueFormatter(private val categories: Array<String>) : com.gi
 class YAxisLabelFormatter(private val label: String) : ValueFormatter() {
 
     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
-        return "$value $label"  // Append the label to the value
+        return "$value $label"
     }
 }

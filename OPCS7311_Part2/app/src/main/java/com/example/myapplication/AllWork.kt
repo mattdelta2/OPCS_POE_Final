@@ -76,8 +76,7 @@ class AllWork : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle the error, if needed
-                // For now, print an error message
+
                 error.toException().printStackTrace()
                 Log.e("FirebaseData", "Error fetching data: ${error.message}")
             }
