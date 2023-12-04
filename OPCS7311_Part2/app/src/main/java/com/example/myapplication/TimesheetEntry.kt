@@ -1,14 +1,16 @@
 package com.example.myapplication
+import com.google.firebase.database.IgnoreExtraProperties
+
 
 data class TimesheetEntry(
-    var categoryName: String? = null, // Add a setter or field for 'category'
+    var categoryName: String? = null,
     var date: String? = null,
     var startTime: String? = null,
     var endTime: String? = null,
     var description: String? = null,
     var imageUrl: String? = null,
-    var nk_pevOnB_ewmEVqpjS: String? = null //from emulator
+    var nk_pevOnB_ewmEVqpjS: String? = null
 ) {
     // Add a default, no-argument constructor
-    constructor() : this("", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "")
 }

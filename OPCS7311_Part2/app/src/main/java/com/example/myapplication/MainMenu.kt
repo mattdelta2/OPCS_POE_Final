@@ -64,15 +64,15 @@ class MainMenu : AppCompatActivity() {
             finish()
         }
 
-        val dateButton = findViewById<ImageButton>(R.id.btnDate )
+        //val dateButton = findViewById<ImageButton>(R.id.btnDate )
 
-        dateButton.setOnClickListener()
-        {
-            val intent = Intent(this, Date::class.java)
+        //dateButton.setOnClickListener()
+       // {
+        //    val intent = Intent(this, Date::class.java)
 
-            startActivity(intent)
-            finish()
-        }
+        //    startActivity(intent)
+         //   finish()
+       // }
 
         val graphButton = findViewById<ImageButton>(R.id.btnGraph)
 
