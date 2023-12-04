@@ -97,7 +97,7 @@
         android:tint="#00FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnShop"
-        app:srcCompat="@drawable/goalsbutton" />
+        app:srcCompat="@drawable/goalsredo" />
 
     <ImageButton
         android:id="@+id/btnBack"
