@@ -5,7 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -72,8 +74,22 @@ class AllWork : AppCompatActivity() {
 
                 // Update the RecyclerView adapter with the new list of entries
                 runOnUiThread {
-                    adapter.submitList(timesheetEntries)
+                    if(timesheetEntries.isEmpty())
+                    {
+                        // Display a message indicating there is no data
+                        val textViewNoData = findViewById<TextView>(R.id.textViewNoData)
+                        textViewNoData.visibility = View.VISIBLE
+
+                    }else
+                    {
+                        // Hide the message if there is data
+                        val textViewNoData = findViewById<TextView>(R.id.textViewNoData)
+                        textViewNoData.visibility = View.GONE
+                        adapter.submitList(timesheetEntries)
+
+                    }
                     Log.d("FirebaseData", "Data updated. Entries count: ${timesheetEntries.size}")
+
                 }
             }
 
