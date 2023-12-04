@@ -48,7 +48,7 @@ class PlayerRoom : AppCompatActivity() {
 
     private fun timer()
     {
-        val intent = Intent(this, Shop::class.java)
+        val intent = Intent(this, Timer::class.java)
         startActivity(intent)
         finish()
     }
